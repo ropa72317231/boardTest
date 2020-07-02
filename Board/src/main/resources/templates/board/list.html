@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<!-- 공통된 부분을 따로 작성해 놓고 불러오는 방식(import)  -->
+<head th:replace="common/head">
+
+</head>
+
+<body>
+
+	<nav th:replace="common/nav"></nav>
+
+	<div class="jumbotron">
+		<div class="container text-center">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>번호</th>
+						<th>제목</th>
+						<th>작성자</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="board : ${list}" th:attr="id=${board.id}">
+						<td th:text="${board.id}"></td>
+						<td th:text="${board.title}"></td>
+						<td th:text="${board.userId}"></td>
+					</tr>
+				</tbody>
+			</table>
+				
+			<ul class="pagination">
+			<!-- 이전 페이지 넘어가기 버튼 추가  -->
+			<li>
+			<a th:if="${startPage} > 1" 
+			th:href="@{/board/(page=${startPage}-10)}"> &lt; </a> <!-- 기호 작성 '<'  -->
+			</li>
+			<th:block th:each="pageNumber : ${#numbers.sequence(startPage, endPage)}">
+			<li th:class="${page} == ${pageNumber} ? active">
+			<!-- 현재 페이지 일때 => class="active"  -->
+				<a th:href="@{/board/(page=${pageNumber})}" 
+				   th:text="${pageNumber}"> 
+				   </a>
+				</li>
+			</th:block>
+			<!-- 다음 페이지 넘어가기 버튼 추가 -->
+			<li>
+			<a th:if="${totalPage} > ${endPage}" 
+			th:href="@{/board/(page=${startPage}+10)}"> &gt; </a>
+			</li>
+			</ul>
+
+
+
+			<button type="button" class="btn btn-primary btn-block" id="write">글쓰기</button>
+		</div>
+	</div>
+
+	<footer th:replace="common/footer"> </footer>
+	<style>
+	tbody > tr:hover {
+		cursor : pointer;
+	}
+
+</style>
+	
+
+<script type="text/javascript">
+	$("#write").click(function() {	// 게시판 상세보기 기능 추가
+		location = "/board/write";
+	});
+	$("tbody > tr").click(function() {	// 게시판 상세보기 기능 추가
+		var id = $(this).attr("id");	//$ => JQurey문에는 반드시 '$'기호를 쓴다
+		location = "/board/" + id;
+	});
+	
+</script>
+
+</body>
+</html>

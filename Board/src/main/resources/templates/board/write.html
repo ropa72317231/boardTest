@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<!-- 공통된 부분을 따로 작성해 놓고 불러오는 방식(import)  -->
+<head th:replace="common/head">
+</head>
+<body>
+
+	<nav th:replace="common/nav"></nav>
+
+	<div class="jumbotron">
+		<div class="container text-center">
+			<form method="post" action="/board/write">
+				<div class="form-group">
+					<label for="title">Title:</label>
+					<input type="text" class="form-control" name="title" id="title">
+				</div>
+				<div class="form-group">
+					<label for="content">Content:</label>
+					<textarea class="form-control" rows="5" name="content" id="content"></textarea>
+				</div>
+				<button type="submit" id="complete" class="btn btn-primary btn-block">글쓰기</button>
+			</form>
+		</div>
+	</div>
+
+	<footer th:replace="common/footer"> </footer>
+
+	<script>
+	$("#complete").click(function() {
+		$.ajax({
+			type: 'post',
+			url:'/board/write',
+			data: $("form").serialize(),
+			success: function(res) {
+					// 응답이 0이면 로그인 팝업창 띄우기
+				if(res == 0) {
+					// 팝업 띄우기   		주소, 	이름, 		옵션
+					window.open("/signin", "login", "width=300 height=200");
+				} else {
+					alert("글쓰기 완료되었습니다.");
+					location = "/board/";
+				}
+			}
+		});
+		return false;
+		
+	});
+	</script>
+
+</body>
+</html>

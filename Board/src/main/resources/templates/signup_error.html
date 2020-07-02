@@ -1,0 +1,12 @@
+<script>
+	alert("중복 이메일입니다.");
+	/* 1번 - 리다이렉트 */
+	location = "/signup";
+	// 2번 - 이전 페이지로 이동
+	history.back();
+	history.go(-2);	//전 전 페이지로 이동
+	
+	console.log(location);
+	console.dir(location);
+	// 1, 2번 중에 하나 선택
+</script>

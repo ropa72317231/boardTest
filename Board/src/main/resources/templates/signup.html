@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<!-- 공통된 부분을 따로 작성해 놓고 불러오는 방식(import)  -->
+<head th:replace="common/head">
+</head>
+<body>
+
+	<nav th:replace="common/nav"></nav>
+
+	<div class="jumbotron">
+		<div class="container text-center">
+			<form method="post" action="/signup">
+				<div class="form-group">
+					<label for="email">Email:</label>
+					<input type="text" class="form-control" id="email" name="email" placeholder="이메일을 입력하세요.">
+					<button type="submit" id="checkbtn" class="btn btn-info">중복확인</button>
+					
+				</div>
+				<div class="form-group">
+					<label for="pwd">Password:</label>
+					<input type="password" class="form-control" id="pwd" name="pwd" placeholder="비밀번호를 입력하세요.">
+					
+					
+				</div>
+				<div class="form-group">
+					<label for="name">Name:</label>
+					<input type="text" class="form-control" id="name" name="name" placeholder="사용자 성함을 입력하세요.">
+				</div>
+				<button class="btn btn-primary btn-block" id="signup">Sign Up</button>
+			</form>
+		</div>
+	</div>
+
+
+	<footer th:replace="common/footer"> </footer>
+	
+
+	<script>
+		$("#signup").click(function() {
+			$("form").submit();
+			return false;
+		});
+		
+		$('#checkbtn').click(function() {
+			$.ajax({
+				type: 'post',
+				url: '/signup',
+				data: $('form').serialize(),
+				success: function(res) {
+					if(res == 0) {
+						alert('중복된 이메일입니다.');
+					} else {
+						alert('가입되었습니다.');
+					}
+				}
+			});
+			return false;
+		});
+		
+	</script>
+	
+
+</body>
+</html>
